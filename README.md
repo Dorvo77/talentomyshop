@@ -5,9 +5,10 @@ Bienvenido al repositorio de **eCommrce**, es un proyecto de venta de video jueg
 ## ✨ Características principales
 
 - 🎁 Listado de video juegos.
-- 🔐 En construccion.
-- ✏️ En construccion.
+- 🔐 Compra de juegos con carrito dinámico.
+- ✏️ Función de loguearse antes de finalizar la compra.
 - 🎨 Interfaz intuitiva y atractiva.
+- 🔗 Deploy en "netlify"
 
 ## 🛠️ Tecnologías utilizadas
 
@@ -15,6 +16,7 @@ El proyecto "eComerce" fue desarrollado utilizando:
 
 - **HTML5**: Para la estructura del proyecto.
 - **CSS3**: Para estilos y diseños modernos.
+- **JAVASCRIP**: Para implementación carrito de compras
 
 
 ## 🔧 Cómo usarlo
@@ -25,7 +27,7 @@ El proyecto "eComerce" fue desarrollado utilizando:
 
 ## 🔗 Demo en vivo
 
-- Prueba el juego en vivo aquí: Demo Amigo Secreto
+- Prueba la página aquí: https://arsotgames.netlify.app/
 
 ## 🚀 Contribuciones
 
