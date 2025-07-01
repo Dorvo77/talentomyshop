@@ -1,118 +1,380 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Arsot Games</title>
-<link rel="ico" href="./images/game.ico" type="image/x-icon">
-<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=calendar_month" />
-<link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PixelPulse - Tu Tienda de Videojuegos</title>
     
+    <!-- Tailwind CSS para un diseño moderno y responsivo -->
+    <script src="https://cdn.tailwindcss.com"></script>
     
+    <!-- Google Fonts: 'Poppins' para una apariencia moderna y legible -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome para iconos nítidos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
 
+    
 </head>
-<body>
+<body class="antialiased">
 
-    <header class="hero">
-      <div class="navbar">
-        <a class="active" href="#"><i class="fa fa-fw fa-home"></i> Home</a>
-        <a href="#"><i class="fa fa-fw fa-search"></i> Search</a>
-        <a href="#"><i class="fa fa-fw fa-envelope"></i> Contact</a>
-        <a href="#"><i class="fa fa-fw fa-user"></i> Login</a>
-      </div>
-        <div class="hero-content">
-            <h1>Encuentra los Mejores juegos CLASICOS</h1>
+    <!-- CONTENEDOR PRINCIPAL DE LA APLICACIÓN -->
+    <div id="app" class="relative min-h-screen">
+
+        <!-- ENCABEZADO FIJO Y SEMITRANSPARENTE -->
+        <header class="bg-gray-900/80 backdrop-blur-sm shadow-lg sticky top-0 z-40">
+            <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+                <a href="#" class="text-2xl font-bold text-white"><i class="fas fa-ghost mr-2 text-indigo-400"></i>Arsot Games</a>
+                <div class="flex items-center">
+                    <button id="cart-button" class="relative text-white hover:text-indigo-300 transition-colors">
+                        <i class="fas fa-shopping-cart fa-lg"></i>
+                        <span id="cart-counter" class="absolute -top-2 -right-3 bg-red-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-bold">0</span>
+                    </button>
+                </div>
+            </nav>
+        </header>
+
+        <!-- CONTENIDO PRINCIPAL: GALERÍA DE PRODUCTOS -->
+        <main class="container mx-auto px-6 py-12">
+            <h1 class="text-3xl md:text-4xl font-bold text-center mb-10 text-white">Juegos Destacados</h1>
+            <div id="product-list" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+                <!-- Las tarjetas de productos se cargarán aquí dinámicamente con JS -->
+            </div>
+        </main>
+
+        <!-- CARRITO DE COMPRAS (PANEL LATERAL) -->
+        <aside id="cart-sidebar" class="cart-sidebar fixed top-0 right-0 h-full w-full max-w-md bg-gray-900 shadow-2xl z-50 p-6 flex flex-col">
+            <div class="flex justify-between items-center border-b border-gray-700 pb-4 mb-4">
+                <h2 class="text-2xl font-semibold text-white">Tu Carrito</h2>
+                <button id="close-cart-button" class="text-gray-400 hover:text-white transition-colors">
+                    <i class="fas fa-times fa-lg"></i>
+                </button>
+            </div>
+
+            <!-- Contenedor de los items del carrito -->
+            <div id="cart-items" class="flex-grow overflow-y-auto">
+                 <p id="empty-cart-message" class="text-gray-400 text-center mt-8">Tu carrito está vacío.</p>
+            </div>
+
+            <!-- Pie del carrito con el total y botón de compra -->
+            <div class="border-t border-gray-700 pt-4 mt-4">
+                <div class="flex justify-between items-center font-bold text-xl mb-4">
+                    <span class="text-white">Total:</span>
+                    <span id="cart-total" class="text-indigo-400">$0.00</span>
+                </div>
+                <button id="checkout-button" class="w-full btn-primary font-bold py-3 rounded-lg text-lg">
+                    <i class="fas fa-lock mr-2"></i> Comprar
+                </button>
+            </div>
+        </aside>
+        
+        <!-- MODAL DE INICIO DE SESIÓN -->
+        <div id="login-modal" class="fixed inset-0 z-50 items-center justify-center hidden">
+            <div id="login-backdrop" class="modal-backdrop absolute inset-0"></div>
             
+            <div class="relative bg-gray-800 rounded-lg shadow-xl w-11/12 max-w-sm p-8">
+                 <button id="close-login-modal" class="absolute top-4 right-4 text-gray-400 hover:text-white">
+                    <i class="fas fa-times fa-lg"></i>
+                </button>
+                <h3 class="text-2xl font-bold text-center text-white mb-4">Inicio de Sesión</h3>
+                <p class="text-center text-gray-400 mb-6 text-sm">Necesitas iniciar sesión para completar tu compra.</p>
+                <form id="login-form">
+                    <div class="mb-4">
+                        <label for="username" class="block text-gray-300 mb-2 text-sm">Usuario</label>
+                        <input type="text" id="username" class="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="tu_usuario" required>
+                    </div>
+                     <div class="mb-6">
+                        <label for="password" class="block text-gray-300 mb-2 text-sm">Contraseña</label>
+                        <input type="password" id="password" class="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="••••••••" required>
+                    </div>
+                    <button type="submit" class="w-full btn-primary font-bold py-3 rounded-lg">
+                        Ingresar
+                    </button>
+                </form>
+            </div>
         </div>
-    </header>
-
-    <section id="search">
-        <h2>Buscar Productos</h2>
-        <div class="search-bar">
-            <input type="text" placeholder="Escribe lo que buscas...">
-            <button>Buscar</button>
+        
+        <!-- MODAL DE NOTIFICACIÓN (TOAST) -->
+        <div id="notification-toast" class="fixed bottom-5 right-5 bg-green-500 text-white py-3 px-6 rounded-lg shadow-lg transform translate-y-24 opacity-0 transition-all duration-300 ease-out z-50">
+            <p id="notification-message"></p>
         </div>
-    </section>
-
-    <section id="productos">
+        <!-- FOOTER -->
+        <footer class="bg-gray-900 text-gray-400 py-8">
+            <div class="container mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-6">
+                <!-- Social Media Icons -->
+                <div class="flex space-x-6 order-3 md:order-1">
+                    <a href="#" aria-label="Facebook" class="hover:text-white transition-colors duration-300"><i class="fab fa-facebook-f fa-lg"></i></a>
+                    <a href="#" aria-label="Instagram" class="hover:text-white transition-colors duration-300"><i class="fab fa-instagram fa-lg"></i></a>
+                    <a href="#" aria-label="X (Twitter)" class="hover:text-white transition-colors duration-300"><i class="fab fa-twitter fa-lg"></i></a>
+                    <a href="#" aria-label="Pinterest" class="hover:text-white transition-colors duration-300"><i class="fab fa-pinterest fa-lg"></i></a>
+                </div>
         
-        <h2><span class="material-symbols-outlined">calendar_month </span>ÚLTIMAS PUBLICACIONES</h2>
-
-        <!-- Portfolio Gallery Grid -->
-<div class="row">
-  <div class="column">
-    <div class="card">
-      <img src="./images/ageofEmpire_thumbs.png" alt="Age of Empire" style="width:90%">
-      <h3>Age of Empire</h3>
-      <p class="price">$19.99</p>
-      <p>Estrategia en tiempo real...clásico..</p>
-      <p><button>Add to Cart</button></p>
-    </div>
-    
-  </div>
-  <div class="column">
-    <div class="card">
-      <img src="./images/aoeII_thumb.jpeg" alt="Age of Empire II" style="width:90%">
-      <h3>Age of Empire II</h3>
-      <p class="price">$19.99</p>
-      <p>Estrategia en tiempo real...clásico..</p>
-      <p><button>Add to Cart</button></p>
-    </div>
-  </div>
-  <div class="column">
-    <div class="card">
-      <img src="./images/nfspayback_thumb.jpg" alt="Need for Speed Payback" style="width:90%">
-      <h3>Need for Speed Payback</h3>
-      <p class="price">$19.99</p>
-      <p>Carrera de autos deportivos...clásico..</p>
-      <p><button>Add to Cart</button></p>
-    </div>
-  </div>
-  <div class="column">
-    <div class="card">
-      <img src="./images/swBattleII_thumb.png" alt="Battle Fron II" style="width:90%">
-      <h3>Star Wars Battle Front II</h3>
-      <p class="price">$19.99</p>
-      <p>EMundo abierto guerra de star wars</p>
-      <p><button>Add to Cart</button></p>
-    </div>
-  </div>
-  <div class="column">
-    <div class="card">
-      <img src="./images/suberia_thumb.png" alt="Syberia" style="width:90%">
-      <h3>Syberia</h3>
-      <p class="price">$29.99</p>
-      <p>Lorem ipsum dolor sit amet</p>
-      <p><button>Add to Cart</button></p>
-    </div>
-    
-  </div>
-</div>        
+                <!-- Copyright Text -->
+                <div class="text-center order-2 md:order-2">
+                    <p class="text-sm">Power by talento tech</p>
+                </div>
         
-       
-    </section>
+                <!-- Go to Top Button -->
+                <div class="order-1 md:order-3">
+                     <a href="#" id="go-to-top" class="bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-2 px-4 rounded-full transition-colors duration-300 flex items-center">
+                        <i class="fas fa-arrow-up mr-2"></i>
+                        <span>Ir al inicio</span>
+                    </a>
+                </div>
+            </div>
+        </footer>
+    </div>
 
-    <!-- Footer -->
-<footer class="w3-center w3-orange w3-padding-64">
-  <a href="#" class="w3-button w3-light-grey"><i class="fa fa-arrow-up w3-margin-right"></i>To the top</a>
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
 
-  <div class="w3-xlarge w3-section">
-    <i class="fa fa-facebook-official w3-hover-opacity"></i>
-    <i class="fa fa-instagram w3-hover-opacity"></i>
-    <i class="fa fa-snapchat w3-hover-opacity"></i>
-    <i class="fa fa-pinterest-p w3-hover-opacity"></i>
-    <i class="fa fa-twitter w3-hover-opacity"></i>
-    <i class="fa fa-linkedin w3-hover-opacity"></i>
-  </div>
-  <p>Powered by Talento Tech</a></p>
-</footer>
- 
+        // --- REFERENCIAS A ELEMENTOS DEL DOM ---
+        const productList = document.getElementById('product-list');
+        const cartButton = document.getElementById('cart-button');
+        const closeCartButton = document.getElementById('close-cart-button');
+        const cartSidebar = document.getElementById('cart-sidebar');
+        const cartCounter = document.getElementById('cart-counter');
+        const cartItemsContainer = document.getElementById('cart-items');
+        const emptyCartMessage = document.getElementById('empty-cart-message');
+        const cartTotalElement = document.getElementById('cart-total');
+        const checkoutButton = document.getElementById('checkout-button');
+        
+        const loginModal = document.getElementById('login-modal');
+        const closeLoginModalButton = document.getElementById('close-login-modal');
+        const loginBackdrop = document.getElementById('login-backdrop');
+        const loginForm = document.getElementById('login-form');
+
+        const notificationToast = document.getElementById('notification-toast');
+        const notificationMessage = document.getElementById('notification-message');
+
+        // --- ESTADO DE LA APLICACIÓN ---
+        let cart = []; // Almacena los productos en el carrito: { id, name, price, image, quantity }
+        let isLoggedIn = false; // Simula el estado de sesión del usuario.
+        let notificationTimer; // Para gestionar el temporizador de la notificación.
+
+        // --- ESTRUCTURA DE DATOS DE PRODUCTOS (simulando una API) ---
+        const products = [
+            { id: 1, name: 'Elden Ring', price: 69.99, image: './image/elden.jpg' },
+            { id: 2, name: 'Cyberpunk 2077', price: 59.99, image: './image/cyberpunk.jpg' },
+            { id: 3, name: 'Baldur\'s Gate 3', price: 29.99, image: './image/baldursIII.webp' },
+            { id: 4, name: 'Red Dead Redemption 2', price: 49.99, image: './image/redII.jpg' },
+            { id: 5, name: 'God of War: Ragnarök', price: 69.99, image: './image/ragnar.jpg' },
+            { id: 6, name: 'Starfield', price: 19.99, image: './image/starfield.jpg' },
+            { id: 7, name: 'Tempest Rising', price: 24.99, image: './image/tempest.jpg' },
+            { id: 8, name: 'The Expedition 33', price: 39.99, image: './image/expedition.jpg' },
+            { id: 9, name: 'Stalker 2', price: 29.99, image: './image/stalker2.jpg' },
+            { id: 10, name: 'Silent Hill 2', price: 19.99, image: './image/silent2.jpg' },
+            { id: 11, name: 'Hogwarts Legacy', price: 39.99, image: './image/hogwarts.jpg' },
+            { id: 12, name: 'Final Fantasy XVI', price: 59.99, image: './image/finalXVI.jpg' },
+            { id: 13, name: 'Resident Evil 4 Remake', price: 49.99, image: './image/residentIV.jpg' }
+        ];
+
+        // --- FUNCIONES ---
+
+        /**
+         * Renderiza las tarjetas de productos en la página principal.
+         * Utiliza un layout de grid responsivo.
+         */
+        function renderProducts() {
+            productList.innerHTML = ''; 
+            products.forEach(product => {
+                const productCard = document.createElement('div');
+                productCard.className = 'card flex flex-col shadow-lg';
+                productCard.innerHTML = `
+                    <div class="relative">
+                        <img src="${product.image}" alt="[Imagen de ${product.name}]" class="w-full h-80 object-cover" onerror="this.onerror=null;this.src='https://placehold.co/400x500/1f2937/e5e7eb?text=Imagen+no+encontrada';">
+                    </div>
+                    <div class="p-5 flex flex-col flex-grow">
+                        <h3 class="text-xl font-bold text-white mb-2 truncate">${product.name}</h3>
+                        <p class="text-2xl font-semibold text-indigo-400 mb-4 mt-auto">$${product.price.toFixed(2)}</p>
+                        <button class="add-to-cart-btn w-full mt-2 btn-primary font-bold py-2 px-4 rounded-lg" data-id="${product.id}">
+                           <i class="fas fa-cart-plus mr-2"></i> Añadir al Carrito
+                        </button>
+                    </div>
+                `;
+                productList.appendChild(productCard);
+            });
+        }
+
+        /**
+         * Actualiza completamente la vista del carrito (items, total, contador).
+         * Se llama cada vez que el carrito es modificado.
+         */
+        function updateCartView() {
+            cartItemsContainer.innerHTML = ''; 
+
+            if (cart.length === 0) {
+                emptyCartMessage.style.display = 'block';
+            } else {
+                emptyCartMessage.style.display = 'none';
+                cart.forEach(item => {
+                    const cartItemElement = document.createElement('div');
+                    cartItemElement.className = 'flex items-center justify-between mb-4 p-2 bg-gray-800 rounded-lg';
+                    cartItemElement.innerHTML = `
+                        <img src="${item.image}" alt="[Imagen de ${item.name}]" class="w-16 h-16 object-cover rounded-md mr-4" onerror="this.onerror=null;this.src='https://placehold.co/100x100/1f2937/e5e7eb?text=Img';">
+                        <div class="flex-grow">
+                            <p class="font-semibold text-white truncate">${item.name}</p>
+                            <p class="text-sm text-gray-400">$${item.price.toFixed(2)}</p>
+                        </div>
+                        <div class="flex items-center">
+                            <button class="quantity-change text-white bg-gray-700 rounded h-7 w-7 flex items-center justify-center hover:bg-gray-600 transition-colors" data-id="${item.id}" data-change="-1">-</button>
+                            <span class="mx-3 font-bold text-lg">${item.quantity}</span>
+                            <button class="quantity-change text-white bg-gray-700 rounded h-7 w-7 flex items-center justify-center hover:bg-gray-600 transition-colors" data-id="${item.id}" data-change="1">+</button>
+                        </div>
+                        <button class="remove-from-cart text-red-500 hover:text-red-400 ml-4 transition-colors" data-id="${item.id}">
+                            <i class="fas fa-trash-alt fa-lg"></i>
+                        </button>
+                    `;
+                    cartItemsContainer.appendChild(cartItemElement);
+                });
+            }
+
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            const totalPrice = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+
+            cartCounter.textContent = totalItems;
+            cartTotalElement.textContent = `$${totalPrice.toFixed(2)}`;
+        }
+
+        /**
+         * Añade un producto al carrito o incrementa su cantidad si ya existe.
+         * @param {number} productId - El ID del producto a añadir.
+         */
+        function addToCart(productId) {
+            const product = products.find(p => p.id === productId);
+            if (!product) return;
+
+            const cartItem = cart.find(item => item.id === productId);
+
+            if (cartItem) {
+                cartItem.quantity++;
+            } else {
+                cart.push({ ...product, quantity: 1 });
+            }
+
+            updateCartView();
+            showNotification(`¡Añadido: ${product.name}!`, 'success');
+        }
+
+        /**
+         * Cambia la cantidad de un item en el carrito. Si la cantidad llega a 0, lo elimina.
+         * @param {number} productId - El ID del producto a modificar.
+         * @param {number} change - El cambio a aplicar (+1 o -1).
+         */
+        function changeQuantity(productId, change) {
+            const cartItem = cart.find(item => item.id === productId);
+            if (!cartItem) return;
+
+            cartItem.quantity += change;
+
+            if (cartItem.quantity <= 0) {
+                removeFromCart(productId);
+            } else {
+                updateCartView();
+            }
+        }
+        
+        /**
+         * Elimina un producto completamente del carrito.
+         * @param {number} productId - El ID del producto a eliminar.
+         */
+        function removeFromCart(productId) {
+            cart = cart.filter(item => item.id !== productId);
+            updateCartView();
+        }
+        
+        /**
+         * Muestra una notificación temporal (toast).
+         * @param {string} message - El mensaje a mostrar.
+         * @param {'success' | 'error'} type - El tipo de notificación para cambiar el color.
+         */
+        function showNotification(message, type = 'success') {
+            clearTimeout(notificationTimer); // Limpia cualquier timer anterior
+            notificationMessage.textContent = message;
+
+            notificationToast.classList.remove('bg-green-500', 'bg-red-500');
+            notificationToast.classList.add(type === 'success' ? 'bg-green-500' : 'bg-red-500');
+            
+            notificationToast.classList.remove('opacity-0', 'translate-y-24');
+            notificationTimer = setTimeout(() => {
+                 notificationToast.classList.add('opacity-0', 'translate-y-24');
+            }, 3000);
+        }
+
+        // --- MANEJADORES DE EVENTOS (usando delegación de eventos para eficiencia) ---
+        
+        // Abrir/Cerrar el carrito de compras
+        cartButton.addEventListener('click', () => cartSidebar.classList.add('open'));
+        closeCartButton.addEventListener('click', () => cartSidebar.classList.remove('open'));
+
+        // Clics en la lista de productos para añadir al carrito
+        productList.addEventListener('click', (e) => {
+            const button = e.target.closest('.add-to-cart-btn');
+            if (button) {
+                const productId = parseInt(button.dataset.id);
+                addToCart(productId);
+            }
+        });
+        
+        // Clics dentro del carrito para cambiar cantidad o eliminar
+        cartItemsContainer.addEventListener('click', (e) => {
+            const target = e.target.closest('button');
+            if (!target) return;
+
+            const productId = parseInt(target.dataset.id);
+            
+            if (target.classList.contains('quantity-change')) {
+                const change = parseInt(target.dataset.change);
+                changeQuantity(productId, change);
+            } else if (target.classList.contains('remove-from-cart')) {
+                removeFromCart(productId);
+            }
+        });
+        
+        // Lógica del botón de "Comprar"
+        checkoutButton.addEventListener('click', () => {
+            if (cart.length === 0) {
+                showNotification("El carrito está vacío.", 'error');
+                return;
+            }
+
+            if (isLoggedIn) {
+                // Simulación de compra exitosa si ya ha iniciado sesión
+                showNotification("¡Gracias por tu compra!", 'success');
+                cart = []; // Vaciar carrito
+                updateCartView();
+                cartSidebar.classList.remove('open');
+            } else {
+                // Si no ha iniciado sesión, mostrar el modal
+                loginModal.style.display = 'flex';
+            }
+        });
+        
+        // Cerrar el modal de login
+        function closeLogin() {
+             loginModal.style.display = 'none';
+        }
+        closeLoginModalButton.addEventListener('click', closeLogin);
+        loginBackdrop.addEventListener('click', closeLogin);
+
+        // Lógica del formulario de inicio de sesión (simulado)
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            isLoggedIn = true;
+            closeLogin();
+            showNotification("¡Inicio de sesión exitoso! Puedes continuar.", 'success');
+            // Cambiar el botón para indicar que el siguiente paso es procesar el pedido
+            checkoutButton.innerHTML = '<i class="fas fa-check-circle mr-2"></i> Procesar Pedido';
+        });
+
+        // --- INICIALIZACIÓN DE LA APLICACIÓN ---
+        renderProducts();
+        updateCartView();
+    });
+    </script>
 
 </body>
 </html>
-<link rel="stylesheet" href="style.css">
-
-
