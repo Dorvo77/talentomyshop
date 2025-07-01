@@ -1,118 +1,47 @@
 /* Add styles here */
-* {
-    box-sizing: border-box;
-}
-
+html {
+            scroll-behavior: smooth;
+        }        
 body {
-    background-color: #EFEEEA;
-    padding: 20px;
-  font-family: Arial;
-
-}
-.navbar {
-    position: sticky;
-    top: 0;
-    overflow: hidden;
-    width: 100%;
-    background-color: #273F4F;
-    
-  }
-  
-  /* Navbar links */
-  .navbar a {
-    
-    float: left;
-    text-align: center;
-    padding: 12px;
-    color: white;
-    text-decoration: none;
-    font-size: 17px;
-  }
-  
-  /* Navbar links on mouse-over */
-  .navbar a:hover {
-    background-color: #000;
-  }
-  
-  /* Current/active navbar link */
-  .active {
-    background-color: #FE7743;
-  }
-    
-  /* Add responsiveness - will automatically display the navbar vertically instead of horizontally on screens less than 500 pixels */
-  @media screen and (max-width: 500px) {
-    .navbar a {
-      float: none;
-      display: block;
-    }
-  }
-
-  /* Grid cards */
-  
-.row {
-    margin: 8px -16px;
-  }
-  
-  /* Add padding BETWEEN each column (if you want) */
-  .row,
-  .row > .column {
-    padding: 8px;
-  }
-  
-  /* Create four equal columns that floats next to each other */
-  .column {
-    float: left;
-    width: 25%;
-  }
-  
-  /* Clear floats after rows */
-  .row:after {
-    content: "";
-    display: table;
-    clear: both;
-  }
-  /* Responsive layout - makes a two column-layout instead of four columns */
-@media screen and (max-width: 900px) {
-    .column {
-      width: 50%;
-    }
-  }
-  
-  /* Responsive layout - makes the two columns stack on top of each other instead of next to each other */
-  @media screen and (max-width: 600px) {
-    .column {
-      width: 100%;
-    }
-  }
-  .card {
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-    max-width: 300px;
-    margin: auto;
-    text-align: center;
-    font-family: arial;
-  }
-  
-  .price {
-    color: grey;
-    font-size: 22px;
-  }
-  
-  .card button {
-    border: none;
-    outline: 0;
-    padding: 12px;
-    color: white;
-    background-color: #273F4F;
-    text-align: center;
-    cursor: pointer;
-    width: 100%;
-    font-size: 18px;
-  }
-  
-  .card button:hover {
-    opacity: 0.7;
-  }
-
-.footer {
-    text-align: center;
-}
+            font-family: 'Poppins', sans-serif;
+            background-color: #111827; /* Gris oscuro para el fondo */
+            color: #e5e7eb; /* Color de texto claro */
+        }
+        .card {
+            background-color: #1f2937; /* Gris ligeramente más claro para las tarjetas */
+            border-radius: 0.75rem;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid #374151;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(76, 81, 191, 0.2), 0 4px 6px -2px rgba(76, 81, 191, 0.1);
+        }
+        .btn-primary {
+            background-color: #4f46e5; /* Púrpura/indigo como color de acento */
+            color: white;
+            transition: background-color 0.3s ease;
+        }
+        .btn-primary:hover {
+            background-color: #4338ca;
+        }
+        .cart-sidebar {
+            transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* Transición suave */
+            transform: translateX(100%);
+        }
+        .cart-sidebar.open {
+            transform: translateX(0);
+        }
+        .modal-backdrop {
+            background-color: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(5px);
+        }
+        /* Ocultar la barra de scroll en el carrito para un look más limpio */
+        #cart-items::-webkit-scrollbar {
+            display: none;
+        }
+        #cart-items {
+            -ms-overflow-style: none; /* IE y Edge */
+            scrollbar-width: none; /* Firefox */
+        }                        
