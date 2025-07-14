@@ -1,4 +1,4 @@
-# 🎁 Pre entrega proyecto eComerce
+# 🎁 Entrega proyecto eComerce
 
 Bienvenido al repositorio de **eCommrce**, es un proyecto de venta de video juegos online. .
 
@@ -16,7 +16,7 @@ El proyecto "eComerce" fue desarrollado utilizando:
 
 - **HTML5**: Para la estructura del proyecto.
 - **CSS3**: Para estilos y diseños modernos.
-- **JAVASCRIP**: Para implementación carrito de compras
+- **JAVASCRIPT**: Para implementación carrito de compras
 
 
 ## 🔧 Cómo usarlo
